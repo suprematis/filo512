@@ -5,12 +5,19 @@ LABEL="${1:-avx512_on}"
 OUT_DIR="../../results"
 mkdir -p "$OUT_DIR"
 
+ITERS=15
+ROWS=2000000
+if [ "${DRY_RUN:-false}" = "true" ]; then
+    ITERS=2
+    ROWS=200000
+fi
+
 if [ ! -f ./clickhouse ]; then
     echo "Downloading official static ClickHouse binary..."
     curl -fsSL https://clickhouse.com/ | sh
 fi
 
-echo ">>> [ClickHouse] Running Vector + Batch Filter Benchmark ($LABEL)..."
+echo ">>> [ClickHouse] Running Vector + Batch Filter Benchmark ($LABEL, ${ITERS} iters, ${ROWS} rows)..."
 perf stat -e cycles,instructions \
     ./clickhouse local --query "
         CREATE TABLE vectors ENGINE = Memory AS
@@ -18,7 +25,7 @@ perf stat -e cycles,instructions \
             number AS id,
             arrayMap(x -> toFloat32(randCanonical()), range(256)) AS vec,
             toString(intHash64(number)) AS tag
-        FROM numbers_mt(2000000);
+        FROM numbers_mt(${ROWS});
 
         SELECT
             id,
@@ -28,4 +35,4 @@ perf stat -e cycles,instructions \
         ORDER BY dist ASC
         LIMIT 50
         FORMAT Null;
-    " --benchmark --iterations 15 2>&1 | tee "${OUT_DIR}/clickhouse_${LABEL}.log"
+    " --benchmark --iterations "$ITERS" 2>&1 | tee "${OUT_DIR}/clickhouse_${LABEL}.log"
