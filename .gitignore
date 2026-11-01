@@ -1,0 +1,14 @@
+# Terraform artifacts & secrets
+**/.terraform/
+**/*.tfstate
+**/*.tfstate.*
+**/crash.log
+**/*.tfvars
+**/*.tfvars.json
+
+# Benchmark binaries & large media files
+workloads/microbench/simd_avx2
+workloads/microbench/simd_avx512
+workloads/clickhouse/clickhouse
+workloads/svt_av1/*.y4m
+workloads/svt_av1/*.ivf
