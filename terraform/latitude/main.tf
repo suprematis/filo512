@@ -8,7 +8,6 @@ terraform {
   }
 }
 
-# Reads LATITUDESH_AUTH_TOKEN from your environment
 provider "latitudesh" {}
 
 variable "project_id" {
@@ -85,13 +84,11 @@ locals {
 
 resource "latitudesh_ssh_key" "team_keys" {
   for_each   = local.effective_ssh_keys
-  project    = var.project_id
   name       = "filo512-${each.key}"
   public_key = each.value
 }
 
 resource "latitudesh_user_data" "filo512_autorun" {
-  project     = var.project_id
   description = "Filo512 Two-Pass Benchmark Runner (dry_run=${var.dry_run}, auto_destroy=${var.auto_destroy})"
   content = templatefile("${path.module}/user_data.sh.tftpl", {
     github_user      = var.github_user
