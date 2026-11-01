@@ -1,0 +1,40 @@
+Svt[info]: -------------------------------------------
+Svt[info]: SVT [version]:	SVT-AV1 Encoder Lib v1.7.0
+Svt[info]: SVT [build]  :	GCC 13.2.0	 64 bit
+Svt[info]: -------------------------------------------
+Svt[info]: Number of logical cores available: 12
+Svt[info]: Number of PPCS 76
+Svt[info]: [asm level on system : up to avx512]
+Svt[info]: [asm level selected : up to avx2]
+Svt[info]: -------------------------------------------
+Svt[info]: SVT [config]: main profile	tier (auto)	level (auto)
+Svt[info]: SVT [config]: width / height / fps numerator / fps denominator 		: 3840 / 2160 / 60 / 1
+Svt[info]: SVT [config]: bit-depth / color format 					: 8 / YUV420
+Svt[info]: SVT [config]: preset / tune / pred struct 					: 6 / PSNR / random access
+Svt[info]: SVT [config]: gop size / mini-gop size / key-frame type 			: 321 / 16 / key frame
+Svt[info]: SVT [config]: BRC mode / rate factor 					: CRF / 30 
+Svt[info]: -------------------------------------------
+Encoding                  1        2        3        4        5        6        7        8        9       10       11       12       13       14       15       16       17       18       19       20
+SUMMARY --------------------------------- Channel 1  --------------------------------
+Total Frames		Frame Rate		Byte Count		Bitrate
+          20		60.00 fps		   2077876		49869.02 kbps
+
+
+Channel 1
+Average Speed:		4.564 fps
+Total Encoding Time:	4382 ms
+Total Execution Time:	5580 ms
+Average Latency:	3278 ms
+Max Latency:		4201 ms
+
+ Performance counter stats for 'SvtAv1EncApp -i test_4k.y4m -b /dev/null --preset 6 --crf 30 --asm avx2':
+
+   119,879,122,717      cycles                                                                
+   175,976,502,115      instructions                     #    1.47  insn per cycle            
+
+       5.835478034 seconds time elapsed
+
+      22.322293000 seconds user
+       1.538569000 seconds sys
+
+

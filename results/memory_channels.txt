@@ -1,0 +1,15 @@
+	Bank Locator: P0_Node0_Channel0_Dimm0
+	Size: 32 GB
+	Locator: DIMMA2
+--
+	Non-Volatile Size: None
+	Volatile Size: 32 GB
+	Cache Size: None
+--
+	Bank Locator: P0_Node0_Channel1_Dimm0
+	Size: 32 GB
+	Locator: DIMMB2
+--
+	Non-Volatile Size: None
+	Volatile Size: 32 GB
+	Cache Size: None

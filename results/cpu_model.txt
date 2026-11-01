@@ -1,0 +1,1 @@
+model name	: AMD EPYC 4244P 6-Core Processor
