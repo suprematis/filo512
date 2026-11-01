@@ -3,7 +3,7 @@ terraform {
   required_providers {
     latitudesh = {
       source  = "latitudesh/latitudesh"
-      version = "~> 2.2.0"
+      version = ">= 2.5.0"
     }
   }
 }
@@ -13,19 +13,19 @@ provider "latitudesh" {}
 variable "project_id" {
   description = "Latitude.sh Project ID"
   type        = string
-  default     = "proj_gXQvNeBIM5zpb"
+  default     = "proj_gXQvNeBlM5zpb"
 }
 
 variable "plan" {
-  description = "Server plan slug (m4.metal.small for $0.41/hr smoke test; f4.metal.large for Zen 5 EPYC 9275F)"
+  description = "Server plan slug (m4-metal-small for $0.41/hr smoke test; f4-metal-large for Zen 5 EPYC 9275F)"
   type        = string
-  default     = "m4.metal.small"
+  default     = "m4-metal-small"
 }
 
 variable "site" {
-  description = "Data center site slug (SJC for m4.metal.small; AMS, TYO, or SIN for f4.metal.large)"
+  description = "Data center site slug (SJC for m4-metal-small; AMS, TYO, or SIN for f4-metal-large)"
   type        = string
-  default     = "SJC"
+  default     = "SJC2"
 }
 
 variable "ssh_public_keys" {
@@ -90,7 +90,7 @@ resource "latitudesh_ssh_key" "team_keys" {
 
 resource "latitudesh_user_data" "filo512_autorun" {
   description = "Filo512 Two-Pass Benchmark Runner (dry_run=${var.dry_run}, auto_destroy=${var.auto_destroy})"
-  content = templatefile("${path.module}/user_data.sh.tftpl", {
+  content = base64encode(templatefile("${path.module}/user_data.sh.tftpl", {
     github_user      = var.github_user
     github_repo      = var.github_repo
     github_token     = var.github_token
@@ -98,7 +98,7 @@ resource "latitudesh_user_data" "filo512_autorun" {
     project_id       = var.project_id
     dry_run          = var.dry_run ? "true" : "false"
     auto_destroy     = var.auto_destroy ? "true" : "false"
-  })
+  }))
 }
 
 resource "latitudesh_server" "filo512_node" {
