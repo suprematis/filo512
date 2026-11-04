@@ -1,0 +1,29 @@
+0.271
+0.034
+0.022
+0.021
+0.018
+0.017
+0.016
+0.014
+0.016
+0.016
+0.016
+0.016
+0.016
+0.016
+0.015
+0.015
+
+ Performance counter stats for './clickhouse local --time --queries-file /tmp/ch_bench_UtyVnc.sql':
+
+    25,622,247,800      cycles                                                                
+    30,955,422,543      instructions                                                          
+
+       0.880184506 seconds time elapsed
+
+       2.562892000 seconds user
+       2.950573000 seconds sys
+
+
+Queries per second: 55.97

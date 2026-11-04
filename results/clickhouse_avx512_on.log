@@ -1,0 +1,29 @@
+0.193
+0.019
+0.018
+0.015
+0.016
+0.016
+0.016
+0.016
+0.016
+0.014
+0.012
+0.015
+0.014
+0.016
+0.013
+0.011
+
+ Performance counter stats for './clickhouse local --time --queries-file /tmp/ch_bench_Wl0m5t.sql':
+
+    22,564,637,060      cycles                                                                
+    11,571,299,508      instructions                                                          
+
+       0.590738921 seconds time elapsed
+
+       2.127152000 seconds user
+       2.754505000 seconds sys
+
+
+Queries per second: 66.08

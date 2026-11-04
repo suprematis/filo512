@@ -1,0 +1,778 @@
+>>> [PASS 1] Running Native AVX-512 Suite (DRY_RUN=false)...
+==========================================================
+ Filo512 Benchmark Suite - Pass: avx512_on (DRY_RUN=false)
+==========================================================
+[1/6] Installing required packages...
+[2/6] Configuring CPU frequency governor to performance...
+[3/6] Capturing hardware & kernel telemetry to ./results/env_avx512_on.txt...
+=== Filo512 Environment Audit (avx512_on) ===
+Timestamp (UTC): 2026-11-04T19:35:59Z
+Hostname: filo512-bench
+Kernel: Linux filo512-bench 7.0.0-42-generic #42~24.04.1-Ubuntu SMP PREEMPT_DYNAMIC Mon Oct 19 14:43:01 UTC 2 x86_64 x86_64 x86_64 GNU/Linux
+Kernel cmdline: root=UUID=f7368d80-f950-4434-8d0d-aaf8408b5d03 ro console=tty1 console=ttyS1,115200n8 nomodeset module_blacklist=af_alg,algif_hash,algif_skcipher,algif_rng,algif_aead,sctp,sctp_diag,nlmon,act_pedit net.ifnames=0 biosdevname=0 modprobe.blacklist=bnxt_re modprobe.blacklist=rndis_host 
+
+=== lscpu Summary ===
+Architecture:                            x86_64
+CPU(s):                                  48
+On-line CPU(s) list:                     0-47
+Model name:                              AMD EPYC 9275F 24-Core Processor
+BIOS Model name:                         AMD EPYC 9275F 24-Core Processor                Unknown CPU @ 4.1GHz
+Thread(s) per core:                      2
+Core(s) per socket:                      24
+Socket(s):                               1
+CPU(s) scaling MHz:                      65%
+CPU max MHz:                             4817.9731
+CPU min MHz:                             1209.2170
+L1d cache:                               1.1 MiB (24 instances)
+L1i cache:                               768 KiB (24 instances)
+L2 cache:                                24 MiB (24 instances)
+L3 cache:                                256 MiB (8 instances)
+NUMA node0 CPU(s):                       0-47
+Vulnerability L1tf:                      Not affected
+
+=== Active AVX-512 Flags ===
+avx512f avx512dq avx512ifma avx512cd avx512bw avx512vl avx512_bf16 avx512vbmi avx512_vbmi2 avx512_vnni avx512_bitalg avx512_vpopcntdq avx512_vp2intersect 
+=== [Microbench] Compiling with g++-14 (-march=znver5) ===
+>>> Running C++ SIMD Dot-Product: AVX2 (256-bit YMM)...
+Elapsed_Sec: 1.3409
+GFLOPS: 29.3245
+Checksum: 13232006144.0000
+
+ Performance counter stats for './simd_avx2':
+
+     6,558,597,487      cycles                                                                
+     9,895,582,194      instructions                                                          
+
+       1.345439695 seconds time elapsed
+
+       1.348361000 seconds user
+       0.000000000 seconds sys
+
+
+>>> Running C++ SIMD Dot-Product: AVX-512 (512-bit ZMM)...
+Elapsed_Sec: 0.6687
+GFLOPS: 58.8063
+Checksum: 13232001024.0000
+
+ Performance counter stats for './simd_avx512':
+
+     3,270,620,463      cycles                                                                
+     4,952,775,631      instructions                                                          
+
+       0.672749132 seconds time elapsed
+
+       0.671717000 seconds user
+       0.000999000 seconds sys
+
+
+>>> [SVT-AV1] Building SVT-AV1 v2.3.0 from source with -DBUILD_AVX512=ON...
+debconf: delaying package configuration, since apt-utils is not installed
+Selecting previously unselected package libuv1t64:amd64.
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 127746 files and directories currently installed.)
+Preparing to unpack .../0-libuv1t64_1.48.0-1.1build1_amd64.deb ...
+Unpacking libuv1t64:amd64 (1.48.0-1.1build1) ...
+Selecting previously unselected package libarchive13t64:amd64.
+Preparing to unpack .../1-libarchive13t64_3.7.2-2ubuntu0.9_amd64.deb ...
+Unpacking libarchive13t64:amd64 (3.7.2-2ubuntu0.9) ...
+Selecting previously unselected package libjsoncpp25:amd64.
+Preparing to unpack .../2-libjsoncpp25_1.9.5-6build1_amd64.deb ...
+Unpacking libjsoncpp25:amd64 (1.9.5-6build1) ...
+Selecting previously unselected package librhash0:amd64.
+Preparing to unpack .../3-librhash0_1.4.3-3build1_amd64.deb ...
+Unpacking librhash0:amd64 (1.4.3-3build1) ...
+Selecting previously unselected package cmake-data.
+Preparing to unpack .../4-cmake-data_3.28.3-1build7_all.deb ...
+Unpacking cmake-data (3.28.3-1build7) ...
+Selecting previously unselected package cmake.
+Preparing to unpack .../5-cmake_3.28.3-1build7_amd64.deb ...
+Unpacking cmake (3.28.3-1build7) ...
+Selecting previously unselected package nasm.
+Preparing to unpack .../6-nasm_2.16.01-1build1_amd64.deb ...
+Unpacking nasm (2.16.01-1build1) ...
+Selecting previously unselected package ninja-build.
+Preparing to unpack .../7-ninja-build_1.11.1-2_amd64.deb ...
+Unpacking ninja-build (1.11.1-2) ...
+Selecting previously unselected package yasm.
+Preparing to unpack .../8-yasm_1.3.0-4_amd64.deb ...
+Unpacking yasm (1.3.0-4) ...
+Setting up libuv1t64:amd64 (1.48.0-1.1build1) ...
+Setting up ninja-build (1.11.1-2) ...
+Setting up yasm (1.3.0-4) ...
+Setting up libjsoncpp25:amd64 (1.9.5-6build1) ...
+Setting up nasm (2.16.01-1build1) ...
+Setting up librhash0:amd64 (1.4.3-3build1) ...
+Setting up cmake-data (3.28.3-1build7) ...
+Setting up libarchive13t64:amd64 (3.7.2-2ubuntu0.9) ...
+Setting up cmake (3.28.3-1build7) ...
+Processing triggers for libc-bin (2.39-0ubuntu8.9) ...
+Cloning into 'SVT-AV1-src'...
+Note: switching to '6e69def4ec283fe0b71195671245c3b768bebdef'.
+
+You are in 'detached HEAD' state. You can look around, make experimental
+changes and commit them, and you can discard any commits you make in this
+state without impacting any branches by switching back to a branch.
+
+If you want to create a new branch to retain commits you create, you may
+do so (now or later) by using -c with the switch command. Example:
+
+  git switch -c <new-branch-name>
+
+Or undo this operation with:
+
+  git switch -
+
+Turn off this advice by setting config variable advice.detachedHead to false
+
+-- The C compiler identification is GNU 13.3.0
+-- The CXX compiler identification is GNU 13.3.0
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: /usr/bin/cc - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /usr/bin/c++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Performing Test HAVE_X86_PLATFORM
+-- Performing Test HAVE_X86_PLATFORM - Success
+-- Performing Test HAVE_ARM_PLATFORM
+-- Performing Test HAVE_ARM_PLATFORM - Failed
+-- Looking for a ASM_NASM compiler
+-- Looking for a ASM_NASM compiler - /usr/bin/nasm
+-- The ASM_NASM compiler identification is NASM
+-- Found assembler: /usr/bin/nasm
+-- BUILD_SHARED_LIBS: OFF
+-- Checking C flag support for: [-Wformat-security] - Yes
+-- Checking C flag support for: [-Wformat] - Yes
+-- Checking C flag support for: [-Wextra] - Yes
+-- Checking CXX flag support for: [-Wformat-security] - Yes
+-- Checking CXX flag support for: [-Wformat] - Yes
+-- Checking CXX flag support for: [-Wextra] - Yes
+-- Checking C flag support for: [-Wall] - Yes
+-- Checking CXX flag support for: [-Wall] - Yes
+-- Checking C flag support for: [-fstack-protector-strong] - Yes
+-- Checking CXX flag support for: [-fstack-protector-strong] - Yes
+-- Checking C flag support for: [-fno-stack-clash-protection] - Yes
+-- Checking CXX flag support for: [-fno-stack-clash-protection] - Yes
+-- Checking C flag support for: [-mno-avx] - Yes
+-- Checking CXX flag support for: [-mno-avx] - Yes
+-- Performing Test HAS_AVX512
+-- Performing Test HAS_AVX512 - Success
+-- Looking for strnlen_s
+-- Looking for strnlen_s - not found
+-- Looking for strncpy_s
+-- Looking for strncpy_s - not found
+-- Looking for strcpy_s
+-- Looking for strcpy_s - not found
+-- Looking for valgrind/valgrind.h
+-- Looking for valgrind/valgrind.h - not found
+-- Performing Test HAVE_BUILTIN_EXPECT
+-- Performing Test HAVE_BUILTIN_EXPECT - Success
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Success
+-- Found Threads: TRUE  
+-- Looking for elf_aux_info
+-- Looking for elf_aux_info - not found
+-- Checking C flag support for: [-msse2] - Yes
+-- Checking CXX flag support for: [-msse2] - Yes
+-- Checking C flag support for: [-mssse3] - Yes
+-- Checking CXX flag support for: [-mssse3] - Yes
+-- Checking C flag support for: [-msse4.1] - Yes
+-- Checking CXX flag support for: [-msse4.1] - Yes
+-- Checking C flag support for: [-mavx2] - Yes
+-- Checking CXX flag support for: [-mavx2] - Yes
+-- Checking C flag support for: [-mavx512f] - Yes
+-- Checking C flag support for: [-mavx512bw] - Yes
+-- Checking C flag support for: [-mavx512dq] - Yes
+-- Checking C flag support for: [-mavx512vl] - Yes
+-- Checking CXX flag support for: [-mavx512f] - Yes
+-- Checking CXX flag support for: [-mavx512bw] - Yes
+-- Checking CXX flag support for: [-mavx512dq] - Yes
+-- Checking CXX flag support for: [-mavx512vl] - Yes
+CMake Deprecation Warning at third_party/cpuinfo/CMakeLists.txt:1 (CMAKE_MINIMUM_REQUIRED):
+  Compatibility with CMake < 3.5 will be removed from a future version of
+  CMake.
+
+  Update the VERSION argument <min> value or use a ...<max> suffix to tell
+  CMake that the project does not need compatibility with older versions.
+
+
+CMake Deprecation Warning at third_party/cpuinfo/deps/clog/CMakeLists.txt:1 (CMAKE_MINIMUM_REQUIRED):
+  Compatibility with CMake < 3.5 will be removed from a future version of
+  CMake.
+
+  Update the VERSION argument <min> value or use a ...<max> suffix to tell
+  CMake that the project does not need compatibility with older versions.
+
+
+-- Configuring done (1.6s)
+-- Generating done (0.0s)
+CMake Warning:
+  Manually-specified variables were not used by the project:
+
+    BUILD_AVX512
+    BUILD_DEC
+
+
+-- Build files have been written to: /opt/filo512/workloads/svt_av1/SVT-AV1-src/build
+ninja: Entering directory `SVT-AV1-src/build'
+[1/270] Building C object CMakeFiles/safestringlib.dir/third_party/safestringlib/ignore_handler_s.c.o
+[2/270] Building C object CMakeFiles/safestringlib.dir/third_party/safestringlib/safe_str_constraint.c.o
+[3/270] Building C object CMakeFiles/safestringlib.dir/third_party/safestringlib/strnlen_s.c.o
+[4/270] Building C object Source/Lib/C_DEFAULT/CMakeFiles/C_DEFAULT.dir/blend_a64_mask_c.c.o
+[5/270] Building C object CMakeFiles/safestringlib.dir/third_party/safestringlib/strncpy_s.c.o
+[6/270] Building C object Source/Lib/C_DEFAULT/CMakeFiles/C_DEFAULT.dir/cfl_c.c.o
+[7/270] Building C object CMakeFiles/safestringlib.dir/third_party/safestringlib/strcpy_s.c.o
+[8/270] Building C object Source/Lib/Codec/CMakeFiles/CODEC.dir/block_structures.c.o
+[9/270] Building C object Source/Lib/Codec/CMakeFiles/CODEC.dir/enc_dec_results.c.o
+[10/270] Building C object Source/Lib/Codec/CMakeFiles/CODEC.dir/ec_results.c.o
+[11/270] Building C object Source/Lib/C_DEFAULT/CMakeFiles/C_DEFAULT.dir/intra_prediction_c.c.o
+[12/270] Building C object Source/Lib/C_DEFAULT/CMakeFiles/C_DEFAULT.dir/pack_unpack_c.c.o
+[13/270] Building C object Source/Lib/Codec/CMakeFiles/CODEC.dir/enc_dec_segments.c.o
+[14/270] Building C object Source/Lib/C_DEFAULT/CMakeFiles/C_DEFAULT.dir/filterintra_c.c.o
+[15/270] Building C object Source/Lib/Codec/CMakeFiles/CODEC.dir/enc_dec_tasks.c.o
+[16/270] Building C object Source/Lib/Codec/CMakeFiles/CODEC.dir/corner_detect.c.o
+[17/270] Building C object Source/Lib/Codec/CMakeFiles/CODEC.dir/dwt.c.o
+[18/270] Building C object Source/Lib/Codec/CMakeFiles/CODEC.dir/bitstream_unit.c.o
+[19/270] Building C object Source/Lib/Codec/CMakeFiles/CODEC.dir/convolve.c.o
+[20/270] Building C object Source/Lib/C_DEFAULT/CMakeFiles/C_DEFAULT.dir/inter_prediction_c.c.o
+[21/270] Building C object Source/Lib/Codec/CMakeFiles/CODEC.dir/enc_warped_motion.c.o
+[22/270] Building C object Source/Lib/Codec/CMakeFiles/CODEC.dir/hash.c.o
+[23/270] Building C object Source/Lib/C_DEFAULT/CMakeFiles/C_DEFAULT.dir/picture_operators_c.c.o
+[24/270] Building C object Source/Lib/C_DEFAULT/CMakeFiles/C_DEFAULT.dir/sad_av1.c.o
+[25/270] Building C object Source/Lib/Codec/CMakeFiles/CODEC.dir/corner_match.c.o
+[26/270] Building C object Source/Lib/Codec/CMakeFiles/CODEC.dir/me_sad_calculation.c.o
+[27/270] Building C object Source/Lib/Codec/CMakeFiles/CODEC.dir/cdef.c.o
+[28/270] Building C object Source/Lib/Codec/CMakeFiles/CODEC.dir/initial_rc_results.c.o
+[29/270] Building C object Source/Lib/Codec/CMakeFiles/CODEC.dir/blend_a64_mask.c.o
+[30/270] Building C object Source/Lib/Codec/CMakeFiles/CODEC.dir/global_motion.c.o
+[31/270] Building C object Source/Lib/C_DEFAULT/CMakeFiles/C_DEFAULT.dir/compute_sad_c.c.o
+[32/270] Building C object Source/Lib/Codec/CMakeFiles/CODEC.dir/me_results.c.o
+[33/270] Building C object Source/Lib/Codec/CMakeFiles/CODEC.dir/deblocking_common.c.o
+[34/270] Building C object Source/Lib/Codec/CMakeFiles/CODEC.dir/fft.c.o
+[35/270] Building C object Source/Lib/Codec/CMakeFiles/CODEC.dir/pic_analysis_results.c.o
+[36/270] Building C object Source/Lib/Codec/CMakeFiles/CODEC.dir/grainSynthesis.c.o
+[37/270] Building C object Source/Lib/C_DEFAULT/CMakeFiles/C_DEFAULT.dir/encode_txb_ref_c.c.o
+[38/270] Building C object Source/Lib/Codec/CMakeFiles/CODEC.dir/neighbor_arrays.c.o
+[39/270] Building C object Source/Lib/Codec/CMakeFiles/CODEC.dir/encode_context.c.o
+[40/270] Building C object Source/Lib/Codec/CMakeFiles/CODEC.dir/coding_unit.c.o
+[41/270] Building C object Source/Lib/Codec/CMakeFiles/CODEC.dir/initial_rc_reorder_queue.c.o
+[42/270] Building C object Source/Lib/Codec/CMakeFiles/CODEC.dir/dlf_process.c.o
+[43/270] Building C object Source/Lib/Codec/CMakeFiles/CODEC.dir/pic_buffer_desc.c.o
+[44/270] Building C object Source/Lib/Codec/CMakeFiles/CODEC.dir/packetization_reorder_queue.c.o
+[45/270] Building C object Source/Lib/Codec/CMakeFiles/CODEC.dir/pd_queue.c.o
+[46/270] Building C object Source/Lib/Codec/CMakeFiles/CODEC.dir/firstpass.c.o
+[47/270] Building C object Source/Lib/Codec/CMakeFiles/CODEC.dir/ec_process.c.o
+[48/270] Building C object Source/Lib/Codec/CMakeFiles/CODEC.dir/global_me_cost.c.o
+[49/270] Building C object Source/Lib/Codec/CMakeFiles/CODEC.dir/cabac_context_model.c.o
+[50/270] Building C object Source/Lib/Codec/CMakeFiles/CODEC.dir/noise_util.c.o
+[51/270] Building C object Source/Lib/Codec/CMakeFiles/CODEC.dir/cdef_process.c.o
+[52/270] Building C object Source/Lib/Codec/CMakeFiles/CODEC.dir/me_context.c.o
+[53/270] Building C object Source/Lib/Codec/CMakeFiles/CODEC.dir/hash_motion.c.o
+[54/270] Building C object Source/Lib/Codec/CMakeFiles/CODEC.dir/rc_tasks.c.o
+[55/270] Building C object Source/Lib/Codec/CMakeFiles/CODEC.dir/global_me.c.o
+[56/270] Building C object Source/Lib/Codec/CMakeFiles/CODEC.dir/pd_reorder_queue.c.o
+[57/270] Building C object Source/Lib/Codec/CMakeFiles/CODEC.dir/pic_demux_results.c.o
+[58/270] Building C object Source/Lib/Codec/CMakeFiles/CODEC.dir/rc_results.c.o
+[59/270] Building C object Source/Lib/Codec/CMakeFiles/CODEC.dir/deblocking_filter.c.o
+[60/270] Building C object Source/Lib/Codec/CMakeFiles/CODEC.dir/pic_manager_queue.c.o
+[61/270] Building C object Source/Lib/Codec/CMakeFiles/CODEC.dir/inter_prediction.c.o
+[62/270] Building C object Source/Lib/Codec/CMakeFiles/CODEC.dir/initial_rc_process.c.o
+[63/270] Building C object Source/Lib/Codec/CMakeFiles/CODEC.dir/enc_intra_prediction.c.o
+[64/270] Building C object Source/Lib/Codec/CMakeFiles/CODEC.dir/resource_coordination_results.c.o
+[65/270] Building C object Source/Lib/Codec/CMakeFiles/CODEC.dir/mcomp.c.o
+[66/270] Building C object Source/Lib/Codec/CMakeFiles/CODEC.dir/pic_operators.c.o
+[67/270] Building C object Source/Lib/Codec/CMakeFiles/CODEC.dir/enc_cdef.c.o
+[68/270] Building C object Source/Lib/Codec/CMakeFiles/CODEC.dir/svt_log.c.o
+[69/270] Building C object Source/Lib/Codec/CMakeFiles/CODEC.dir/svt_time.c.o
+[70/270] Building C object Source/Lib/Codec/CMakeFiles/CODEC.dir/ransac.c.o
+[71/270] Building C object Source/Lib/Codec/CMakeFiles/CODEC.dir/segmentation_params.c.o
+[72/270] Building C object Source/Lib/Codec/CMakeFiles/CODEC.dir/svt_malloc.c.o
+[73/270] Building C object Source/Lib/Codec/CMakeFiles/CODEC.dir/coding_loop.c.o
+[74/270] Building C object Source/Lib/Codec/CMakeFiles/CODEC.dir/md_rate_estimation.c.o
+[75/270] Building C object Source/Lib/Codec/CMakeFiles/CODEC.dir/av1me.c.o
+[76/270] Building C object Source/Lib/Codec/CMakeFiles/CODEC.dir/me_process.c.o
+[77/270] Building C object Source/Lib/C_DEFAULT/CMakeFiles/C_DEFAULT.dir/variance.c.o
+[78/270] Building C object Source/Lib/Codec/CMakeFiles/CODEC.dir/adaptive_mv_pred.c.o
+[79/270] Building C object Source/Lib/Codec/CMakeFiles/CODEC.dir/packetization_process.c.o
+[80/270] Building C object Source/Lib/Codec/CMakeFiles/CODEC.dir/svt_threads.c.o
+[81/270] Building C object Source/Lib/Codec/CMakeFiles/CODEC.dir/md_process.c.o
+[82/270] Building C object Source/Lib/Codec/CMakeFiles/CODEC.dir/pd_results.c.o
+[83/270] Building C object Source/Lib/Codec/CMakeFiles/CODEC.dir/palette.c.o
+[84/270] Building C object Source/Lib/Codec/CMakeFiles/CODEC.dir/sys_resource_manager.c.o
+[85/270] Building C object Source/Lib/Codec/CMakeFiles/CODEC.dir/pass2_strategy.c.o
+[86/270] Building C object Source/Lib/Codec/CMakeFiles/CODEC.dir/pred_structure.c.o
+[87/270] Building C object Source/Lib/ASM_SSE2/CMakeFiles/ASM_SSE2.dir/compute_mean_intrin_sse2.c.o
+[88/270] Building C object Source/Lib/Codec/CMakeFiles/CODEC.dir/vector.c.o
+[89/270] Building C object Source/Lib/Codec/CMakeFiles/CODEC.dir/noise_model.c.o
+[90/270] Building C object Source/Lib/ASM_SSE2/CMakeFiles/ASM_SSE2.dir/avc_style_mcp_intrin_sse.c.o
+[91/270] Building C object Source/Lib/Codec/CMakeFiles/CODEC.dir/pic_analysis_process.c.o
+[92/270] Building C object Source/Lib/Codec/CMakeFiles/CODEC.dir/svt_psnr.c.o
+[93/270] Building C object Source/Lib/ASM_SSE2/CMakeFiles/ASM_SSE2.dir/highbd_subtract_sse2.c.o
+[94/270] Building C object Source/Lib/Codec/CMakeFiles/CODEC.dir/aom_dsp_rtcd.c.o
+[95/270] Building C object Source/Lib/Codec/CMakeFiles/CODEC.dir/pic_manager_process.c.o
+[96/270] Building C object Source/Lib/ASM_SSE2/CMakeFiles/ASM_SSE2.dir/convolve_2d_sse2.c.o
+[97/270] Building ASM_NASM object Source/Lib/ASM_SSE2/CMakeFiles/ASM_SSE2.dir/aom_subpixel_8t_sse2.asm.o
+[98/270] Building C object Source/Lib/Codec/CMakeFiles/CODEC.dir/reference_object.c.o
+[99/270] Building C object Source/Lib/Codec/CMakeFiles/CODEC.dir/segmentation.c.o
+[100/270] Building C object Source/Lib/ASM_SSE2/CMakeFiles/ASM_SSE2.dir/me_sad_calc_intrin_sse2.c.o
+[101/270] Building ASM_NASM object Source/Lib/ASM_SSE2/CMakeFiles/ASM_SSE2.dir/picture_operators_sse2.asm.o
+[102/270] Building ASM_NASM object Source/Lib/ASM_SSE2/CMakeFiles/ASM_SSE2.dir/highbd_variance_impl_sse2.asm.o
+[103/270] Building C object Source/Lib/ASM_SSE2/CMakeFiles/ASM_SSE2.dir/fft_sse2.c.o
+[104/270] Building C object Source/Lib/ASM_SSE2/CMakeFiles/ASM_SSE2.dir/highbd_variance_sse2.c.o
+[105/270] Building ASM_NASM object Source/Lib/ASM_SSE2/CMakeFiles/ASM_SSE2.dir/x64RegisterUtil.asm.o
+[106/270] Building C object Source/Lib/Codec/CMakeFiles/CODEC.dir/sequence_control_set.c.o
+[107/270] Building C object Source/Lib/Codec/CMakeFiles/CODEC.dir/enc_dec_process.c.o
+[108/270] Building C object Source/Lib/Codec/CMakeFiles/CODEC.dir/full_loop.c.o
+[109/270] Building C object Source/Lib/Codec/CMakeFiles/CODEC.dir/super_res.c.o
+[110/270] Building C object Source/Lib/ASM_SSE2/CMakeFiles/ASM_SSE2.dir/highbd_intrapred_sse2.c.o
+[111/270] Building C object Source/Lib/ASM_SSE2/CMakeFiles/ASM_SSE2.dir/jnt_convolve_2d_sse2.c.o
+[112/270] Building C object Source/Lib/Codec/CMakeFiles/CODEC.dir/motion_estimation.c.o
+[113/270] Building C object Source/Lib/Codec/CMakeFiles/CODEC.dir/rest_process.c.o
+[114/270] Building C object Source/Lib/Codec/CMakeFiles/CODEC.dir/warped_motion.c.o
+[115/270] Building ASM_NASM object Source/Lib/ASM_SSSE3/CMakeFiles/ASM_SSSE3.dir/aom_subpixel_bilinear_ssse3.asm.o
+[116/270] Building C object Source/Lib/Codec/CMakeFiles/CODEC.dir/enc_inter_prediction.c.o
+[117/270] Building C object Source/Lib/ASM_SSE2/CMakeFiles/ASM_SSE2.dir/jnt_convolve_sse2.c.o
+[118/270] Building C object Source/Lib/Codec/CMakeFiles/CODEC.dir/resource_coordination_process.c.o
+[119/270] Building C object Source/Lib/ASM_SSE2/CMakeFiles/ASM_SSE2.dir/wiener_convolve_sse2.c.o
+[120/270] Building ASM_NASM object Source/Lib/ASM_SSE2/CMakeFiles/ASM_SSE2.dir/highbd_intrapred_sse2_.asm.o
+[121/270] Generating version header
+-- Configured version: v2.3.0
+[122/270] Building C object Source/Lib/Codec/CMakeFiles/CODEC.dir/inv_transforms.c.o
+[123/270] Building C object Source/Lib/Codec/CMakeFiles/CODEC.dir/restoration.c.o
+[124/270] Building C object Source/Lib/ASM_SSE2/CMakeFiles/ASM_SSE2.dir/intra_pred_av1_intrin_sse2.c.o
+[125/270] Building C object Source/Lib/ASM_SSE2/CMakeFiles/ASM_SSE2.dir/pack_unpack_intrin_sse2.c.o
+[126/270] Building C object Source/Lib/Codec/CMakeFiles/CODEC.dir/common_dsp_rtcd.c.o
+[127/270] Building C object Source/Lib/ASM_SSSE3/CMakeFiles/ASM_SSSE3.dir/highbd_wiener_convolve_ssse3.c.o
+[128/270] Building C object Source/Lib/Codec/CMakeFiles/CODEC.dir/restoration_pick.c.o
+[129/270] Building C object Source/Lib/Codec/CMakeFiles/CODEC.dir/intra_prediction.c.o
+[130/270] Building C object Source/Lib/ASM_SSSE3/CMakeFiles/ASM_SSSE3.dir/jnt_convolve_ssse3.c.o
+[131/270] Building C object Source/Lib/ASM_SSSE3/CMakeFiles/ASM_SSSE3.dir/highbd_convolve_2d_ssse3.c.o
+[132/270] Building C object Source/Lib/Codec/CMakeFiles/CODEC.dir/resize.c.o
+[133/270] Building ASM_NASM object Source/Lib/ASM_SSE2/CMakeFiles/ASM_SSE2.dir/subtract_sse2.asm.o
+[134/270] Building C object Source/Lib/ASM_SSE4_1/CMakeFiles/ASM_SSE4_1.dir/corner_match_sse4.c.o
+[135/270] Building C object Source/Lib/Globals/CMakeFiles/GLOBALS.dir/metadata_handle.c.o
+[136/270] Building C object Source/Lib/Codec/CMakeFiles/CODEC.dir/md_config_process.c.o
+[137/270] Building C object Source/Lib/Codec/CMakeFiles/CODEC.dir/pcs.c.o
+[138/270] Building C object Source/Lib/ASM_SSE2/CMakeFiles/ASM_SSE2.dir/encodetxb_sse2.c.o
+[139/270] Building C object Source/Lib/ASM_SSE4_1/CMakeFiles/ASM_SSE4_1.dir/av1_convolve_scale_sse4.c.o
+[140/270] Building C object Source/Lib/ASM_SSSE3/CMakeFiles/ASM_SSSE3.dir/highbd_convolve_ssse3.c.o
+[141/270] Building C object Source/Lib/ASM_SSE4_1/CMakeFiles/ASM_SSE4_1.dir/intrapred_16bit_intrin_sse4_1.c.o
+[142/270] Building C object Source/Lib/ASM_SSSE3/CMakeFiles/ASM_SSSE3.dir/intrapred_ssse3.c.o
+[143/270] Building C object Source/Lib/Codec/CMakeFiles/CODEC.dir/rd_cost.c.o
+[144/270] Building ASM_NASM object Source/Lib/ASM_SSSE3/CMakeFiles/ASM_SSSE3.dir/aom_subpixel_8t_ssse3.asm.o
+[145/270] Building C object Source/Lib/Codec/CMakeFiles/CODEC.dir/rc_process.c.o
+[146/270] Building C object Source/Lib/Codec/CMakeFiles/CODEC.dir/pd_process.c.o
+[147/270] Building C object Source/Lib/ASM_SSSE3/CMakeFiles/ASM_SSSE3.dir/aom_subpixel_8t_intrin_ssse3.c.o
+[148/270] Building C object Source/Lib/ASM_SSE4_1/CMakeFiles/ASM_SSE4_1.dir/highbd_convolve_2d_sse4.c.o
+[149/270] Building C object Source/Lib/ASM_SSE4_1/CMakeFiles/ASM_SSE4_1.dir/highbd_jnt_convolve_sse4.c.o
+[150/270] Building C object Source/Lib/ASM_SSE4_1/CMakeFiles/ASM_SSE4_1.dir/reconinter_sse4.c.o
+[151/270] Building ASM_NASM object Source/Lib/ASM_SSE2/CMakeFiles/ASM_SSE2.dir/intrapred_sse2.asm.o
+[152/270] Building C object Source/Lib/Codec/CMakeFiles/CODEC.dir/entropy_coding.c.o
+[153/270] Building C object Source/Lib/Codec/CMakeFiles/CODEC.dir/src_ops_process.c.o
+[154/270] Building C object Source/Lib/ASM_SSSE3/CMakeFiles/ASM_SSSE3.dir/highbd_intrapred_intrin_ssse3.c.o
+[155/270] Building C object Source/Lib/Codec/CMakeFiles/CODEC.dir/enc_mode_config.c.o
+[156/270] Building C object Source/Lib/Codec/CMakeFiles/CODEC.dir/mode_decision.c.o
+[157/270] Building C object Source/Lib/ASM_SSE4_1/CMakeFiles/ASM_SSE4_1.dir/cdef_block_sse4_1.c.o
+[158/270] Building C object Source/Lib/ASM_SSE4_1/CMakeFiles/ASM_SSE4_1.dir/warp_plane_sse4.c.o
+[159/270] Building C object Source/Lib/Codec/CMakeFiles/CODEC.dir/temporal_filtering.c.o
+[160/270] Building C object Source/Lib/Globals/CMakeFiles/GLOBALS.dir/enc_settings.c.o
+[161/270] Building C object Source/Lib/ASM_SSE4_1/CMakeFiles/ASM_SSE4_1.dir/temporal_filtering_sse4_1.c.o
+[162/270] Building C object Source/Lib/ASM_SSE2/CMakeFiles/ASM_SSE2.dir/pic_operators_intrin_sse2.c.o
+[163/270] Building C object Source/Lib/ASM_SSSE3/CMakeFiles/ASM_SSSE3.dir/reconinter_ssse3.c.o
+[164/270] Building C object Source/Lib/Codec/CMakeFiles/CODEC.dir/transforms.c.o
+[165/270] Building C object Source/Lib/ASM_SSE4_1/CMakeFiles/ASM_SSE4_1.dir/cdef_sse4.c.o
+[166/270] Building C object Source/Lib/ASM_SSE4_1/CMakeFiles/ASM_SSE4_1.dir/filterintra_sse4.c.o
+[167/270] Building C object Source/Lib/ASM_SSSE3/CMakeFiles/ASM_SSSE3.dir/variance_impl_ssse3.c.o
+[168/270] Building C object Source/Lib/ASM_SSE4_1/CMakeFiles/ASM_SSE4_1.dir/av1_quantize_sse4_1.c.o
+[169/270] Building C object Source/Lib/ASM_SSE2/CMakeFiles/ASM_SSE2.dir/variance_sse2.c.o
+[170/270] Building C object Source/Lib/ASM_SSE2/CMakeFiles/ASM_SSE2.dir/dlf_intrin_sse2.c.o
+[171/270] Building C object Source/Lib/ASM_SSSE3/CMakeFiles/ASM_SSSE3.dir/av1_inv_txfm_ssse3.c.o
+[172/270] Building C object Source/Lib/ASM_SSE4_1/CMakeFiles/ASM_SSE4_1.dir/compute_sad_intrin_sse4_1.c.o
+[173/270] Building C object Source/Lib/ASM_SSE2/CMakeFiles/ASM_SSE2.dir/convolve_sse2.c.o
+[174/270] Building C object Source/Lib/ASM_SSE4_1/CMakeFiles/ASM_SSE4_1.dir/obmc_variance_sse4.c.o
+[175/270] Building C object Source/Lib/ASM_AVX2/CMakeFiles/ASM_AVX2.dir/corner_match_avx2.c.o
+[176/270] Building C object Source/Lib/ASM_AVX2/CMakeFiles/ASM_AVX2.dir/comb_avg_sad_intrin_avx2.c.o
+[177/270] Building C object Source/Lib/ASM_SSE4_1/CMakeFiles/ASM_SSE4_1.dir/blend_a64_mask_sse4.c.o
+[178/270] Building C object Source/Lib/ASM_AVX2/CMakeFiles/ASM_AVX2.dir/dwt_avx2.c.o
+[179/270] Building C object Source/Lib/ASM_SSE4_1/CMakeFiles/ASM_SSE4_1.dir/pickrst_sse4.c.o
+[180/270] Building C object Source/Lib/ASM_AVX2/CMakeFiles/ASM_AVX2.dir/cdef_avx2.c.o
+[181/270] Building C object Source/Lib/ASM_AVX2/CMakeFiles/ASM_AVX2.dir/av1_quantize_avx2.c.o
+[182/270] Building C object Source/Lib/ASM_AVX2/CMakeFiles/ASM_AVX2.dir/cfl_avx2.c.o
+[183/270] Building C object Source/Lib/ASM_AVX2/CMakeFiles/ASM_AVX2.dir/aom_subpixel_8t_intrin_avx2.c.o
+[184/270] Building C object Source/Lib/ASM_SSE4_1/CMakeFiles/ASM_SSE4_1.dir/pic_operators_intrin_sse4_1.c.o
+[185/270] Building C object Source/Lib/ASM_SSE4_1/CMakeFiles/ASM_SSE4_1.dir/encodetxb_sse4.c.o
+[186/270] Building C object Source/Lib/ASM_AVX2/CMakeFiles/ASM_AVX2.dir/highbd_convolve_2d_avx2.c.o
+[187/270] Building C object Source/Lib/ASM_AVX2/CMakeFiles/ASM_AVX2.dir/fft_avx2.c.o
+[188/270] Building C object Source/Lib/ASM_AVX2/CMakeFiles/ASM_AVX2.dir/cdef_block_avx2.c.o
+[189/270] Building C object Source/Lib/ASM_SSE4_1/CMakeFiles/ASM_SSE4_1.dir/selfguided_sse4.c.o
+[190/270] Building C object Source/Lib/ASM_AVX2/CMakeFiles/ASM_AVX2.dir/highbd_convolve_avx2.c.o
+[191/270] Building C object Source/Lib/ASM_AVX2/CMakeFiles/ASM_AVX2.dir/blend_a64_mask_avx2.c.o
+[192/270] Building C object Source/Lib/ASM_AVX2/CMakeFiles/ASM_AVX2.dir/highbd_quantize_intrin_avx2.c.o
+[193/270] Building C object Source/Lib/ASM_AVX2/CMakeFiles/ASM_AVX2.dir/highbd_jnt_convolve_avx2.c.o
+[194/270] Building C object Source/Lib/Codec/CMakeFiles/CODEC.dir/product_coding_loop.c.o
+[195/270] Building C object Source/Lib/ASM_AVX2/CMakeFiles/ASM_AVX2.dir/highbd_variance_avx2.c.o
+[196/270] Building C object Source/Lib/ASM_AVX2/CMakeFiles/ASM_AVX2.dir/encodetxb_avx2.c.o
+[197/270] Building ASM_NASM object Source/Lib/ASM_AVX2/CMakeFiles/ASM_AVX2.dir/mc_avx2.asm.o
+[198/270] Building C object Source/Lib/ASM_AVX2/CMakeFiles/ASM_AVX2.dir/convolve_2d_avx2.c.o
+[199/270] Building C object Source/Lib/ASM_AVX2/CMakeFiles/ASM_AVX2.dir/highbd_warp_affine_avx2.c.o
+[200/270] Building C object Source/Lib/ASM_AVX2/CMakeFiles/ASM_AVX2.dir/convolve_avx2.c.o
+[201/270] Building ASM_NASM object Source/Lib/ASM_AVX2/CMakeFiles/ASM_AVX2.dir/mc16_avx2.asm.o
+[202/270] Building C object Source/Lib/ASM_SSE4_1/CMakeFiles/ASM_SSE4_1.dir/highbd_inv_txfm_sse4.c.o
+[203/270] Building C object Source/Lib/ASM_AVX2/CMakeFiles/ASM_AVX2.dir/highbd_intra_pred_avx2.c.o
+[204/270] Building C object Source/App/CMakeFiles/SvtAv1EncApp.dir/app_context.c.o
+[205/270] Building C object Source/Lib/ASM_AVX2/CMakeFiles/ASM_AVX2.dir/av1_inv_txfm_avx2.c.o
+[206/270] Building C object Source/Lib/ASM_AVX2/CMakeFiles/ASM_AVX2.dir/noise_model_avx2.c.o
+[207/270] Building C object Source/Lib/ASM_AVX2/CMakeFiles/ASM_AVX2.dir/pack_unpack_intrinsic_avx2.c.o
+[208/270] Building C object Source/Lib/ASM_AVX2/CMakeFiles/ASM_AVX2.dir/inter_prediction_com_avx2.c.o
+[209/270] Building C object Source/Lib/ASM_AVX2/CMakeFiles/ASM_AVX2.dir/obmc_sad_avx2.c.o
+[210/270] Building C object Source/App/CMakeFiles/SvtAv1EncApp.dir/app_output_ivf.c.o
+[211/270] Building C object Source/App/CMakeFiles/SvtAv1EncApp.dir/app_input_y4m.c.o
+[212/270] Building C object Source/Lib/ASM_AVX2/CMakeFiles/ASM_AVX2.dir/ssim_avx2.c.o
+[213/270] Building C object third_party/fastfeat/CMakeFiles/FASTFEAT.dir/fast.c.o
+[214/270] Building C object Source/Lib/ASM_AVX512/CMakeFiles/ASM_AVX512.dir/cdef_avx512.c.o
+[215/270] Building C object Source/App/CMakeFiles/SvtAv1EncApp.dir/svt_time.c.o
+[216/270] Building C object Source/Lib/ASM_AVX2/CMakeFiles/ASM_AVX2.dir/palette_avx2.c.o
+[217/270] Building ASM_NASM object Source/Lib/ASM_SSSE3/CMakeFiles/ASM_SSSE3.dir/subpel_variance_ssse3.asm.o
+[218/270] Building C object Source/Lib/ASM_AVX512/CMakeFiles/ASM_AVX512.dir/cdef_block_avx512.c.o
+[219/270] Building C object Source/Lib/ASM_AVX2/CMakeFiles/ASM_AVX2.dir/restoration_pick_avx2.c.o
+[220/270] Building C object Source/App/CMakeFiles/SvtAv1EncApp.dir/app_main.c.o
+[221/270] Building C object Source/Lib/Codec/CMakeFiles/CODEC.dir/utility.c.o
+[222/270] Building C object third_party/fastfeat/CMakeFiles/FASTFEAT.dir/nonmax.c.o
+[223/270] Building C object third_party/cpuinfo/CMakeFiles/cpuinfo.dir/src/init.c.o
+[224/270] Building C object third_party/cpuinfo/CMakeFiles/cpuinfo.dir/src/x86/vendor.c.o
+[225/270] Building C object third_party/cpuinfo/CMakeFiles/cpuinfo.dir/src/api.c.o
+[226/270] Building C object third_party/cpuinfo/CMakeFiles/cpuinfo.dir/src/x86/isa.c.o
+[227/270] Building C object third_party/cpuinfo/CMakeFiles/cpuinfo.dir/src/x86/x86_init.c.o
+[228/270] Building C object third_party/cpuinfo/CMakeFiles/cpuinfo.dir/src/x86/linux/init.c.o
+[229/270] Building C object Source/App/CMakeFiles/SvtAv1EncApp.dir/app_process_cmd.c.o
+[230/270] Building C object third_party/cpuinfo/deps/clog/CMakeFiles/clog.dir/src/clog.c.o
+[231/270] Building C object Source/Lib/ASM_AVX2/CMakeFiles/ASM_AVX2.dir/sse_avx2.c.o
+[232/270] Building ASM_NASM object Source/Lib/ASM_SSE2/CMakeFiles/ASM_SSE2.dir/subpel_variance_sse2.asm.o
+[233/270] Building C object Source/Lib/ASM_AVX512/CMakeFiles/ASM_AVX512.dir/encodetxb_avx512.c.o
+[234/270] Building C object Source/Lib/ASM_AVX2/CMakeFiles/ASM_AVX2.dir/variance_avx2.c.o
+[235/270] Building C object Source/App/CMakeFiles/SvtAv1EncApp.dir/app_config.c.o
+[236/270] Building C object Source/Lib/ASM_AVX2/CMakeFiles/ASM_AVX2.dir/selfguided_avx2.c.o
+[237/270] Building C object Source/Lib/ASM_AVX2/CMakeFiles/ASM_AVX2.dir/warp_plane_avx2.c.o
+[238/270] Building C object Source/Lib/ASM_AVX2/CMakeFiles/ASM_AVX2.dir/wiener_convolve_avx2.c.o
+[239/270] Building C object Source/Lib/ASM_AVX512/CMakeFiles/ASM_AVX512.dir/pic_operators_intrin_avx512.c.o
+[240/270] Building C object Source/Lib/Globals/CMakeFiles/GLOBALS.dir/enc_handle.c.o
+[241/270] Building C object Source/Lib/ASM_AVX2/CMakeFiles/ASM_AVX2.dir/obmc_variance_avx2.c.o
+[242/270] Building C object Source/Lib/ASM_AVX2/CMakeFiles/ASM_AVX2.dir/variance_impl_avx2.c.o
+[243/270] Building C object Source/Lib/ASM_AVX2/CMakeFiles/ASM_AVX2.dir/pic_operators_intrin_avx2.c.o
+[244/270] Building C object Source/Lib/ASM_AVX2/CMakeFiles/ASM_AVX2.dir/transforms_intrin_avx2.c.o
+[245/270] Building C object Source/Lib/ASM_AVX2/CMakeFiles/ASM_AVX2.dir/temporal_filtering_avx2.c.o
+[246/270] Building C object Source/Lib/ASM_AVX512/CMakeFiles/ASM_AVX512.dir/highbd_intra_pred_avx512.c.o
+[247/270] Building C object Source/Lib/ASM_AVX512/CMakeFiles/ASM_AVX512.dir/wiener_convolve_avx512.c.o
+[248/270] Building C object Source/Lib/ASM_AVX2/CMakeFiles/ASM_AVX2.dir/intra_pred_intrin_avx2.c.o
+[249/270] Building C object Source/Lib/ASM_AVX512/CMakeFiles/ASM_AVX512.dir/variance_avx512.c.o
+[250/270] Building C object Source/Lib/ASM_AVX512/CMakeFiles/ASM_AVX512.dir/convolve_avx512.c.o
+[251/270] Building C object Source/Lib/ASM_AVX2/CMakeFiles/ASM_AVX2.dir/jnt_convolve_avx2.c.o
+[252/270] Building C object Source/Lib/ASM_AVX512/CMakeFiles/ASM_AVX512.dir/convolve_2d_avx512.c.o
+[253/270] Building C object Source/Lib/ASM_AVX2/CMakeFiles/ASM_AVX2.dir/resize_avx2.c.o
+[254/270] Building C object Source/Lib/ASM_AVX2/CMakeFiles/ASM_AVX2.dir/jnt_convolve_2d_avx2.c.o
+[255/270] Building C object Source/Lib/ASM_AVX2/CMakeFiles/ASM_AVX2.dir/compute_sad_intrin_avx2.c.o
+[256/270] Building C object third_party/fastfeat/CMakeFiles/FASTFEAT.dir/fast_9.c.o
+[257/270] Building C object Source/Lib/ASM_AVX512/CMakeFiles/ASM_AVX512.dir/jnt_convolve_2d_avx512.c.o
+[258/270] Building C object Source/Lib/ASM_AVX512/CMakeFiles/ASM_AVX512.dir/jnt_convolve_avx512.c.o
+[259/270] Building C object Source/Lib/ASM_AVX512/CMakeFiles/ASM_AVX512.dir/compute_sad_intrin_avx512.c.o
+[260/270] Building C object Source/Lib/ASM_AVX512/CMakeFiles/ASM_AVX512.dir/highbd_inv_txfm_avx512.c.o
+[261/270] Building C object Source/Lib/ASM_AVX2/CMakeFiles/ASM_AVX2.dir/pickrst_avx2.c.o
+[262/270] Building C object Source/Lib/ASM_AVX512/CMakeFiles/ASM_AVX512.dir/pickrst_avx512.c.o
+[263/270] Building C object Source/Lib/ASM_AVX2/CMakeFiles/ASM_AVX2.dir/highbd_inv_txfm_avx2.c.o
+[264/270] Building C object Source/Lib/ASM_SSE4_1/CMakeFiles/ASM_SSE4_1.dir/highbd_fwd_txfm_sse4.c.o
+[265/270] Building C object Source/Lib/ASM_AVX512/CMakeFiles/ASM_AVX512.dir/highbd_fwd_txfm_AVX512.c.o
+[266/270] Building C object Source/Lib/ASM_AVX2/CMakeFiles/ASM_AVX2.dir/highbd_fwd_txfm_avx2.c.o
+[267/270] Building ASM_NASM object Source/Lib/ASM_AVX2/CMakeFiles/ASM_AVX2.dir/itx_avx2.asm.o
+[268/270] Building ASM_NASM object Source/Lib/ASM_AVX2/CMakeFiles/ASM_AVX2.dir/itx16_avx2.asm.o
+[269/270] Linking C static library /opt/filo512/workloads/svt_av1/SVT-AV1-src/Bin/Release/libSvtAv1Enc.a
+[270/270] Linking C executable /opt/filo512/workloads/svt_av1/SVT-AV1-src/Bin/Release/SvtAv1EncApp
+In function ‘memcpy’,
+    inlined from ‘svt_aom_set_nsq_geom_ctrls’ at /opt/filo512/workloads/svt_av1/SVT-AV1-src/Source/Lib/Codec/enc_mode_config.c:5123:9,
+    inlined from ‘svt_aom_sig_deriv_enc_dec_common’ at /opt/filo512/workloads/svt_av1/SVT-AV1-src/Source/Lib/Codec/enc_mode_config.c:7235:5:
+/usr/include/x86_64-linux-gnu/bits/string_fortified.h:29:10: warning: ‘nsq_geom_ctrls_struct’ may be used uninitialized [-Wmaybe-uninitialized]
+   29 |   return __builtin___memcpy_chk (__dest, __src, __len,
+      |          ^
+/opt/filo512/workloads/svt_av1/SVT-AV1-src/Source/Lib/Codec/enc_mode_config.c: In function ‘svt_aom_sig_deriv_enc_dec_common’:
+/opt/filo512/workloads/svt_av1/SVT-AV1-src/Source/Lib/Codec/enc_mode_config.c:5077:19: note: ‘nsq_geom_ctrls_struct’ declared here
+ 5077 |     NsqGeomCtrls  nsq_geom_ctrls_struct;
+      |                   ^
+Generating synthetic 4K (3840x2160) 120-frame YUV420p test stream via ffmpeg...
+>>> [SVT-AV1] Running 4K Encode (120 frames) with --asm avx2...
+Svt[info]: -------------------------------------------
+Svt[info]: SVT [version]:	SVT-AV1 Encoder Lib v2.3.0
+Svt[info]: SVT [build]  :	GCC 13.3.0	 64 bit
+Svt[info]: LIB Build date: Nov  4 2026 19:36:07
+Svt[info]: -------------------------------------------
+Svt[info]: Level of Parallelism: 6
+Svt[info]: Number of PPCS 305
+Svt[info]: [asm level on system : up to avx512]
+Svt[info]: [asm level selected : up to avx2]
+Svt[info]: -------------------------------------------
+Svt[info]: SVT [config]: main profile	tier (auto)	level (auto)
+Svt[info]: SVT [config]: width / height / fps numerator / fps denominator 		: 3840 / 2160 / 60 / 1
+Svt[info]: SVT [config]: bit-depth / color format 					: 8 / YUV420
+Svt[info]: SVT [config]: preset / tune / pred struct 					: 6 / PSNR / random access
+Svt[info]: SVT [config]: gop size / mini-gop size / key-frame type 			: 321 / 32 / key frame
+Svt[info]: SVT [config]: BRC mode / rate factor 					: CRF / 30 
+Svt[info]: SVT [config]: AQ mode / variance boost 					: 2 / 0
+Svt[info]: -------------------------------------------
+Svt[warn]: Failed to set thread priority: Invalid argument
+Encoding                  1        2        3        4        5        6        7        8        9       10       11       12       13       14       15       16       17       18       19       20       21       22       23       24       25       26       27       28       29       30       31       32       33       34       35       36       37       38       39       40       41       42       43       44       45       46       47       48       49       50       51       52       53       54       55       56       57       58       59       60       61       62       63       64       65       66       67       68       69       70       71       72       73       74       75       76       77       78       79       80       81       82       83       84       85       86       87       88       89       90       91       92       93       94       95       96       97       98       99      100      101      102      103      104      105      106      107      108      109      110      111      112      113      114      115      116      117      118      119      120      120
+SUMMARY --------------------------------- Channel 1  --------------------------------
+Total Frames		Frame Rate		Byte Count		Bitrate
+         120		60.00 fps		  12790549		51162.20 kbps
+
+
+Channel 1
+Average Speed:		22.393 fps
+Total Encoding Time:	5359 ms
+Total Execution Time:	6156 ms
+Average Latency:	3530 ms
+Max Latency:		5161 ms
+
+ Performance counter stats for './SvtAv1EncApp -i test_4k.y4m -b /dev/null --preset 6 --crf 30 --asm avx2':
+
+   288,473,453,441      cycles                                                                
+   603,800,723,176      instructions                                                          
+
+       6.474316975 seconds time elapsed
+
+      59.585656000 seconds user
+       1.595704000 seconds sys
+
+
+>>> [SVT-AV1] Running 4K Encode (120 frames) with --asm avx512...
+Svt[info]: -------------------------------------------
+Svt[info]: SVT [version]:	SVT-AV1 Encoder Lib v2.3.0
+Svt[info]: SVT [build]  :	GCC 13.3.0	 64 bit
+Svt[info]: LIB Build date: Nov  4 2026 19:36:07
+Svt[info]: -------------------------------------------
+Svt[info]: Level of Parallelism: 6
+Svt[info]: Number of PPCS 305
+Svt[info]: [asm level on system : up to avx512]
+Svt[info]: [asm level selected : up to avx512]
+Svt[info]: -------------------------------------------
+Svt[info]: SVT [config]: main profile	tier (auto)	level (auto)
+Svt[info]: SVT [config]: width / height / fps numerator / fps denominator 		: 3840 / 2160 / 60 / 1
+Svt[info]: SVT [config]: bit-depth / color format 					: 8 / YUV420
+Svt[info]: SVT [config]: preset / tune / pred struct 					: 6 / PSNR / random access
+Svt[info]: SVT [config]: gop size / mini-gop size / key-frame type 			: 321 / 32 / key frame
+Svt[info]: SVT [config]: BRC mode / rate factor 					: CRF / 30 
+Svt[info]: SVT [config]: AQ mode / variance boost 					: 2 / 0
+Svt[info]: -------------------------------------------
+Svt[warn]: Failed to set thread priority: Invalid argument
+Encoding                  1        2        3        4        5        6        7        8        9       10       11       12       13       14       15       16       17       18       19       20       21       22       23       24       25       26       27       28       29       30       31       32       33       34       35       36       37       38       39       40       41       42       43       44       45       46       47       48       49       50       51       52       53       54       55       56       57       58       59       60       61       62       63       64       65       66       67       68       69       70       71       72       73       74       75       76       77       78       79       80       81       82       83       84       85       86       87       88       89       90       91       92       93       94       95       96       97       98       99      100      101      102      103      104      105      106      107      108      109      110      111      112      113      114      115      116      117      118      119      120      120
+SUMMARY --------------------------------- Channel 1  --------------------------------
+Total Frames		Frame Rate		Byte Count		Bitrate
+         120		60.00 fps		  12790549		51162.20 kbps
+
+
+Channel 1
+Average Speed:		23.025 fps
+Total Encoding Time:	5212 ms
+Total Execution Time:	6029 ms
+Average Latency:	3422 ms
+Max Latency:		4999 ms
+
+ Performance counter stats for './SvtAv1EncApp -i test_4k.y4m -b /dev/null --preset 6 --crf 30 --asm avx512':
+
+   270,164,200,027      cycles                                                                
+   573,965,708,217      instructions                                                          
+
+       6.348516379 seconds time elapsed
+
+      55.733556000 seconds user
+       1.721105000 seconds sys
+
+
+Downloading official static ClickHouse binary...
+
+Will download https://builds.clickhouse.com/26.10/amd64/clickhouse into clickhouse
+
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  4 1271M    4 52.3M    0     0   211M      0  0:00:06 --:--:--  0:00:06  211M 28 1271M   28  364M    0     0   292M      0  0:00:04  0:00:01  0:00:03  292M 52 1271M   52  673M    0     0   299M      0  0:00:04  0:00:02  0:00:02  299M 68 1271M   68  873M    0     0   269M      0  0:00:04  0:00:03  0:00:01  269M 89 1271M   89 1137M    0     0   267M      0  0:00:04  0:00:04 --:--:--  267M100 1271M  100 1271M    0     0   268M      0  0:00:04  0:00:04 --:--:--  271M
+
+Successfully downloaded the ClickHouse binary, you can run it as:
+    ./clickhouse
+
+You can also install it:
+sudo ./clickhouse install
+
+Fetching the latest clickhousectl release...
+Will download https://builds.clickhouse.com/clickhousectl/clickhousectl-x86_64-unknown-linux-musl-v0.5.0.tar.gz into /.local/bin/clickhousectl
+
+Successfully installed clickhousectl to /.local/bin/clickhousectl
+Created alias: chctl -> clickhousectl
+
+NOTE: /.local/bin is not in your PATH.
+Add it by running:
+
+  export PATH="/.local/bin:$PATH"
+
+You may want to add that line to your shell profile (~/.bashrc, ~/.zshrc, etc.)
+>>> [ClickHouse] Running Vector + Batch Filter Benchmark (avx512_on, 15 iters, 1000000 rows)...
+Queries per second: 66.08
+0.193
+0.019
+0.018
+0.015
+0.016
+0.016
+0.016
+0.016
+0.016
+0.014
+0.012
+0.015
+0.014
+0.016
+0.013
+0.011
+
+ Performance counter stats for './clickhouse local --time --queries-file /tmp/ch_bench_Wl0m5t.sql':
+
+    22,564,637,060      cycles                                                                
+    11,571,299,508      instructions                                                          
+
+       0.590738921 seconds time elapsed
+
+       2.127152000 seconds user
+       2.754505000 seconds sys
+
+
+Queries per second: 66.08
+>>> [PASS 1 COMPLETE] Masking AVX-512 in GRUB and rebooting...
+Sourcing file `/etc/default/grub'
+Sourcing file `/etc/default/grub.d/99-filo512.cfg'
+Generating grub configuration file ...
+Found linux image: /boot/vmlinuz-7.0.0-42-generic
+Found initrd image: /boot/initrd.img-7.0.0-42-generic
+Found linux image: /boot/vmlinuz-6.8.0-147-generic
+Found initrd image: /boot/initrd.img-6.8.0-147-generic
+Adding boot menu entry for UEFI Firmware Settings ...
+done
+[OK] clearcpuid=avx512f,avx512dq,avx512ifma,avx512cd,avx512bw,avx512vl,avx512_bf16,avx512vbmi,avx512_vbmi2,avx512_vnni,avx512_bitalg,avx512_vpopcntdq written to /etc/default/grub.d/99-filo512.cfg and GRUB updated.
+>>> [PASS 2] Running AVX-512 Masked Suite (DRY_RUN=false)...
+==========================================================
+ Filo512 Benchmark Suite - Pass: avx512_off (DRY_RUN=false)
+==========================================================
+[1/6] Installing required packages...
+[2/6] Configuring CPU frequency governor to performance...
+[3/6] Capturing hardware & kernel telemetry to ./results/env_avx512_off.txt...
+=== Filo512 Environment Audit (avx512_off) ===
+Timestamp (UTC): 2026-11-04T19:42:12Z
+Hostname: filo512-bench
+Kernel: Linux filo512-bench 7.0.0-42-generic #42~24.04.1-Ubuntu SMP PREEMPT_DYNAMIC Mon Oct 19 14:43:01 UTC 2 x86_64 x86_64 x86_64 GNU/Linux
+Kernel cmdline: BOOT_IMAGE=/boot/vmlinuz-7.0.0-42-generic root=UUID=f7368d80-f950-4434-8d0d-aaf8408b5d03 ro console=tty1 console=ttyS1,115200n8 nomodeset module_blacklist=af_alg,algif_hash,algif_skcipher,algif_rng,algif_aead,sctp,sctp_diag,nlmon,act_pedit net.ifnames=0 biosdevname=0 modprobe.blacklist=bnxt_re modprobe.blacklist=rndis_host clearcpuid=avx512f,avx512dq,avx512ifma,avx512cd,avx512bw,avx512vl,avx512_bf16,avx512vbmi,avx512_vbmi2,avx512_vnni,avx512_bitalg,avx512_vpopcntdq clearcpuid=avx512f,avx512dq,avx512ifma,avx512cd,avx512bw,avx512vl,avx512_bf16,avx512vbmi,avx512_vbmi2,avx512_vnni,avx512_bitalg,avx512_vpopcntdq
+
+=== lscpu Summary ===
+Architecture:                            x86_64
+CPU(s):                                  48
+On-line CPU(s) list:                     0-47
+Model name:                              AMD EPYC 9275F 24-Core Processor
+BIOS Model name:                         AMD EPYC 9275F 24-Core Processor                Unknown CPU @ 4.1GHz
+Thread(s) per core:                      2
+Core(s) per socket:                      24
+Socket(s):                               1
+CPU(s) scaling MHz:                      67%
+CPU max MHz:                             4817.9731
+CPU min MHz:                             1209.2170
+L1d cache:                               1.1 MiB (24 instances)
+L1i cache:                               768 KiB (24 instances)
+L2 cache:                                24 MiB (24 instances)
+L3 cache:                                256 MiB (8 instances)
+NUMA node0 CPU(s):                       0-47
+Vulnerability L1tf:                      Not affected
+
+=== Active AVX-512 Flags ===
+>>> [PASS 2] Running AVX-512 Masked Suite (DRY_RUN=false)...
+==========================================================
+ Filo512 Benchmark Suite - Pass: avx512_off (DRY_RUN=false)
+==========================================================
+Capturing hardware & kernel telemetry to ./results/env_avx512_off.txt...
+=== Filo512 Environment Audit (avx512_off) ===
+Timestamp (UTC): 2026-11-04T19:47:41Z
+Hostname: filo512-bench
+Kernel: Linux filo512-bench 7.0.0-42-generic #42~24.04.1-Ubuntu SMP PREEMPT_DYNAMIC Mon Oct 19 14:43:01 UTC 2 x86_64 x86_64 x86_64 GNU/Linux
+Kernel cmdline: BOOT_IMAGE=/boot/vmlinuz-7.0.0-42-generic root=UUID=f7368d80-f950-4434-8d0d-aaf8408b5d03 ro console=tty1 console=ttyS1,115200n8 nomodeset module_blacklist=af_alg,algif_hash,algif_skcipher,algif_rng,algif_aead,sctp,sctp_diag,nlmon,act_pedit net.ifnames=0 biosdevname=0 modprobe.blacklist=bnxt_re modprobe.blacklist=rndis_host clearcpuid=avx512f,avx512dq,avx512ifma,avx512cd,avx512bw,avx512vl,avx512_bf16,avx512vbmi,avx512_vbmi2,avx512_vnni,avx512_bitalg,avx512_vpopcntdq clearcpuid=avx512f,avx512dq,avx512ifma,avx512cd,avx512bw,avx512vl,avx512_bf16,avx512vbmi,avx512_vbmi2,avx512_vnni,avx512_bitalg,avx512_vpopcntdq
+
+=== lscpu Summary ===
+Architecture:                            x86_64
+CPU(s):                                  48
+On-line CPU(s) list:                     0-47
+Model name:                              AMD EPYC 9275F 24-Core Processor
+BIOS Model name:                         AMD EPYC 9275F 24-Core Processor                Unknown CPU @ 4.1GHz
+Thread(s) per core:                      2
+Core(s) per socket:                      24
+Socket(s):                               1
+CPU(s) scaling MHz:                      69%
+CPU max MHz:                             4817.9731
+CPU min MHz:                             1209.2170
+L1d cache:                               1.1 MiB (24 instances)
+L1i cache:                               768 KiB (24 instances)
+L2 cache:                                24 MiB (24 instances)
+L3 cache:                                256 MiB (8 instances)
+NUMA node(s):                            1
+NUMA node0 CPU(s):                       0-47
+Vulnerability L1tf:                      Not affected
+
+=== Active AVX-512 Flags ===
+NONE (AVX-512 Masked)
+>>> [ClickHouse] Running Vector + Batch Filter Benchmark (avx512_off, 15 iters, 1000000 rows)...
+Queries per second: 55.97
+0.271
+0.034
+0.022
+0.021
+0.018
+0.017
+0.016
+0.014
+0.016
+0.016
+0.016
+0.016
+0.016
+0.016
+0.015
+0.015
+
+ Performance counter stats for './clickhouse local --time --queries-file /tmp/ch_bench_UtyVnc.sql':
+
+    25,622,247,800      cycles                                                                
+    30,955,422,543      instructions                                                          
+
+       0.880184506 seconds time elapsed
+
+       2.562892000 seconds user
+       2.950573000 seconds sys
+
+
+Queries per second: 55.97
+
+# Filo512: AMD AVX-512 vs. AVX2 Benchmark Summary
+- **Processor:** `AMD EPYC 9275F 24-Core Processor`
+- **Pass 1 Active AVX-512 Subsets:** `avx512f avx512dq avx512ifma avx512cd avx512bw avx512vl avx512_bf16 avx512vbmi avx512_vbmi2 avx512_vnni avx512_bitalg avx512_vpopcntdq avx512_vp2intersect`
+- **Pass 2 Kernel Mask Status:** `NONE (AVX-512 Masked)`
+
+| Workload Metric | AVX2 (256-bit) | AVX-512 (512-bit) | Speedup | Instructions (AVX2) | Instructions (AVX-512) |
+| :--- | :---: | :---: | :---: | :---: | :---: |
+| **C++ SIMD Dot-Product (GFLOPS)** | 29.3245 | 58.8063 | **2.01x** | 9,895,582,194 | 4,952,775,631 |
+| **SVT-AV1 4K Encode (FPS)** | 22.393 | 23.025 | **1.03x** | 603,800,723,176 | 573,965,708,217 |
+| **ClickHouse Vector+Filter (QPS)** | 55.97 | 66.08 | **1.18x** | 30,955,422,543 | 11,571,299,508 |
+
+>>> [CLEANUP] Restoring native AVX-512 GRUB configuration...
+Sourcing file `/etc/default/grub'
+Generating grub configuration file ...
+Found linux image: /boot/vmlinuz-7.0.0-42-generic
+Found initrd image: /boot/initrd.img-7.0.0-42-generic
+Found linux image: /boot/vmlinuz-6.8.0-147-generic
+Found initrd image: /boot/initrd.img-6.8.0-147-generic
+Adding boot menu entry for UEFI Firmware Settings ...
+done
+[OK] Removed /etc/default/grub.d/99-filo512.cfg and restored native AVX-512 in GRUB.
+Removed "/etc/systemd/system/multi-user.target.wants/filo512-runner.service".
