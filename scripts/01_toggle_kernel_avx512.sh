@@ -1,22 +1,27 @@
 #!/usr/bin/env bash
 set -euo pipefail
 MODE="${1:-status}"
-GRUB_FILE="/etc/default/grub"
+DROPIN_FILE="/etc/default/grub.d/99-filo512.cfg"
+
+# Mask avx512f (and all dependent AVX-512 flags) at the kernel boot level
+MASK_ARGS="clearcpuid=avx512f,avx512dq,avx512ifma,avx512cd,avx512bw,avx512vl,avx512_bf16,avx512vbmi,avx512_vbmi2,avx512_vnni,avx512_bitalg,avx512_vpopcntdq"
 
 case "$MODE" in
   disable)
-    if ! grep -q "clearcpuid=avx512f" "$GRUB_FILE"; then
-      sudo sed -i 's/GRUB_CMDLINE_LINUX_DEFAULT="/GRUB_CMDLINE_LINUX_DEFAULT="clearcpuid=avx512f /' "$GRUB_FILE"
-      sudo update-grub
-      echo "[OK] clearcpuid=avx512f added to GRUB. Run 'sudo reboot' to boot without AVX-512."
-    else
-      echo "[INFO] clearcpuid=avx512f is already set in $GRUB_FILE."
-    fi
+    sudo mkdir -p /etc/default/grub.d
+    cat << GRUB_EOF | sudo tee "$DROPIN_FILE" >/dev/null
+# Managed by filo512 benchmark state machine
+GRUB_CMDLINE_LINUX_DEFAULT="\$GRUB_CMDLINE_LINUX_DEFAULT ${MASK_ARGS}"
+GRUB_CMDLINE_LINUX="\$GRUB_CMDLINE_LINUX ${MASK_ARGS}"
+GRUB_EOF
+    sudo update-grub
+    echo "[OK] ${MASK_ARGS} written to ${DROPIN_FILE} and GRUB updated."
     ;;
   enable)
-    sudo sed -i 's/clearcpuid=avx512f //g' "$GRUB_FILE"
+    sudo rm -f "$DROPIN_FILE"
+    sudo sed -i 's/clearcpuid=[^ "]* *//g' /etc/default/grub || true
     sudo update-grub
-    echo "[OK] AVX-512 restored in GRUB. Run 'sudo reboot' to boot with native AVX-512."
+    echo "[OK] Removed ${DROPIN_FILE} and restored native AVX-512 in GRUB."
     ;;
   *)
     echo "Kernel Cmdline: $(cat /proc/cmdline)"
