@@ -1,35 +1,41 @@
 #!/usr/bin/env bash
 set -euo pipefail
-OUT_DIR="$(cd "$(dirname "$0")/.." && pwd)/results"
-mkdir -p "$OUT_DIR"
 
-echo "=== [1/6] Installing Required Packages (Ubuntu 24.04) ==="
+cd "$(dirname "$0")/.."
+LABEL="${1:-avx512_on}"
+OUT_DIR="./results"
+mkdir -p "$OUT_DIR"
+OUT_FILE="${OUT_DIR}/env_${LABEL}.txt"
+
+echo "[1/6] Installing required packages..."
 export DEBIAN_FRONTEND=noninteractive
 sudo apt-get update -qq
-sudo apt-get install -y -qq \
-  build-essential g++-14 gcc-14 cmake ninja-build nasm yasm \
-  git curl wget aria2 jq numactl hwloc dmidecode ipmitool python3 \
-  svt-av1 ffmpeg linux-tools-common linux-tools-generic "linux-tools-$(uname -r)" || true
+KERNEL_REL=$(uname -r)
+sudo apt-get install -y -qq build-essential g++-14 git curl jq python3 ffmpeg svt-av1 \
+    linux-tools-common "linux-tools-${KERNEL_REL}" || \
+    sudo apt-get install -y -qq build-essential g++-14 git curl jq python3 ffmpeg svt-av1 linux-tools-generic
 
-echo "=== [2/6] Locking CPU Frequency Governor to Performance ==="
-if [ -d /sys/devices/system/cpu/cpu0/cpufreq ]; then
-    for gov in /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor; do
-        echo performance | sudo tee "$gov" > /dev/null
-    done
-fi
+echo "[2/6] Configuring CPU frequency governor to performance..."
+for gov in /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor; do
+    [ -f "$gov" ] && echo performance | sudo tee "$gov" >/dev/null || true
+done
 
-echo "=== [3/6] Setting THP to madvise & Perf Paranoid to -1 ==="
-echo madvise | sudo tee /sys/kernel/mm/transparent_hugepage/enabled > /dev/null
-sudo sysctl -w kernel.perf_event_paranoid=-1 > /dev/null
-
-echo "=== [4/6] Auditing Populated DDR5 Memory Channels ==="
-sudo dmidecode -t memory | grep -E "Size:|Configured Memory Speed:|Locator:" | grep -B1 -A1 "GB" > "${OUT_DIR}/memory_channels.txt" || true
-
-echo "=== [5/6] Capturing CPU & NUMA Topology ==="
-lscpu > "${OUT_DIR}/lscpu.txt"
-numactl --hardware > "${OUT_DIR}/numa_topology.txt" || true
-grep -m1 'model name' /proc/cpuinfo | tee "${OUT_DIR}/cpu_model.txt"
-
-echo "=== [6/6] Auditing Active AVX-512 Feature Flags ==="
-grep -m1 -o 'avx512[^ ]*' /proc/cpuinfo | sort -u | tr '\n' ' ' | tee "${OUT_DIR}/avx512_flags.txt" || echo "NONE (AVX-512 Masked)"
-echo ""
+echo "[3/6] Capturing hardware & kernel telemetry to ${OUT_FILE}..."
+{
+    echo "=== Filo512 Environment Audit (${LABEL}) ==="
+    echo "Timestamp (UTC): $(date -u +"%Y-%m-%dT%H:%M:%SZ")"
+    echo "Hostname: $(hostname)"
+    echo "Kernel: $(uname -a)"
+    echo "Kernel cmdline: $(cat /proc/cmdline)"
+    echo ""
+    echo "=== lscpu Summary ==="
+    lscpu | grep -E "Architecture|Model name|Socket|Thread|Core|CPU\(s\)|MHz|L1|L2|L3"
+    echo ""
+    echo "=== Active AVX-512 Flags ==="
+    AVX_FLAGS=$(grep -m1 '^flags' /proc/cpuinfo | tr ' ' '\n' | grep '^avx512' | tr '\n' ' ')
+    if [ -n "$AVX_FLAGS" ]; then
+        echo "$AVX_FLAGS"
+    else
+        echo "NONE (AVX-512 Masked)"
+    fi
+} | tee "$OUT_FILE"
