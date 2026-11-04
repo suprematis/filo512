@@ -1,0 +1,15 @@
+0.062
+0.009
+0.005
+
+ Performance counter stats for './clickhouse local --time --queries-file /dev/fd/63':
+
+     1,184,160,356      cycles                                                                
+     1,270,033,791      instructions                     #    1.07  insn per cycle            
+
+       0.245725752 seconds time elapsed
+
+       0.065312000 seconds user
+       0.164240000 seconds sys
+
+

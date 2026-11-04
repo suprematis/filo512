@@ -1,0 +1,16 @@
+Decompressing the binary......................................
+0.047
+0.006
+0.005
+
+ Performance counter stats for './clickhouse local --time --queries-file /dev/fd/63':
+
+    39,307,668,863      cycles                                                                
+    81,369,843,804      instructions                     #    2.07  insn per cycle            
+
+       3.789993039 seconds time elapsed
+
+       4.332923000 seconds user
+       3.493223000 seconds sys
+
+

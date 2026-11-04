@@ -1,0 +1,13 @@
+Elapsed: 1.43487 s | GFLOPS: 9.35403 | sink: 6.71089e+07
+
+ Performance counter stats for './simd_avx512':
+
+     8,371,077,810      cycles                                                                
+     2,879,949,390      instructions                     #    0.34  insn per cycle            
+
+       1.528283792 seconds time elapsed
+
+       1.454739000 seconds user
+       0.076986000 seconds sys
+
+

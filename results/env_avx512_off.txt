@@ -1,0 +1,27 @@
+=== Filo512 Environment Audit (avx512_off) ===
+Timestamp (UTC): 2026-11-04T19:06:50Z
+Hostname: filo512-bench
+Kernel: Linux filo512-bench 6.8.0-147-generic #147-Ubuntu SMP PREEMPT_DYNAMIC Thu Sep 24 11:33:16 UTC 2026 x86_64 x86_64 x86_64 GNU/Linux
+Kernel cmdline: BOOT_IMAGE=/boot/vmlinuz-6.8.0-147-generic root=UUID=2a135e3a-2a3e-4e33-b036-947ef8634cb1 ro console=tty1 console=ttyS1,115200n8 nomodeset module_blacklist=af_alg,algif_hash,algif_skcipher,algif_rng,algif_aead,sctp,sctp_diag,nlmon,act_pedit net.ifnames=0 biosdevname=0 modprobe.blacklist=bnxt_re modprobe.blacklist=rndis_host
+
+=== lscpu Summary ===
+Architecture:                            x86_64
+CPU(s):                                  12
+On-line CPU(s) list:                     0-11
+Model name:                              AMD EPYC 4245P 6-Core Processor
+BIOS Model name:                         AMD EPYC 4245P 6-Core Processor                 Unknown CPU @ 3.9GHz
+Thread(s) per core:                      2
+Core(s) per socket:                      6
+Socket(s):                               1
+CPU(s) scaling MHz:                      92%
+CPU max MHz:                             5484.0000
+CPU min MHz:                             600.0000
+L1d cache:                               288 KiB (6 instances)
+L1i cache:                               192 KiB (6 instances)
+L2 cache:                                6 MiB (6 instances)
+L3 cache:                                32 MiB (1 instance)
+NUMA node0 CPU(s):                       0-11
+Vulnerability L1tf:                      Not affected
+
+=== Active AVX-512 Flags ===
+avx512f avx512dq avx512ifma avx512cd avx512bw avx512vl avx512_bf16 avx512vbmi avx512_vbmi2 avx512_vnni avx512_bitalg avx512_vpopcntdq avx512_vp2intersect 
