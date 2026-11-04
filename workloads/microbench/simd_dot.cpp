@@ -1,5 +1,5 @@
 #include <iostream>
-#include <vector>
+#include <cstdlib>
 #include <chrono>
 #include <iomanip>
 
@@ -18,19 +18,25 @@ float dot_product(const float* __restrict__ a, const float* __restrict__ b, size
 }
 
 int main() {
-    alignas(64) std::vector<float> a(N, 1.0001f);
-    alignas(64) std::vector<float> b(N, 0.9999f);
+    float* a = static_cast<float*>(std::aligned_alloc(64, N * sizeof(float)));
+    float* b = static_cast<float*>(std::aligned_alloc(64, N * sizeof(float)));
+    if (!a || !b) return 1;
+
+    for (size_t i = 0; i < N; ++i) {
+        a[i] = 1.0001f;
+        b[i] = 0.9999f;
+    }
 
     // Warmup cache and frequency
     volatile float sink = 0.0f;
     for (size_t i = 0; i < 1000; ++i) {
-        sink += dot_product(a.data(), b.data(), N, 1.0f);
+        sink += dot_product(a, b, N, 1.0f);
     }
 
     auto start = std::chrono::high_resolution_clock::now();
     float total = 0.0f;
     for (size_t iter = 0; iter < ITERS; ++iter) {
-        total += dot_product(a.data(), b.data(), N, 1.0f + static_cast<float>(iter) * 1e-7f);
+        total += dot_product(a, b, N, 1.0f + static_cast<float>(iter) * 1e-7f);
     }
     auto end = std::chrono::high_resolution_clock::now();
     sink = total;
@@ -44,5 +50,8 @@ int main() {
     std::cout << "Elapsed_Sec: " << elapsed << "\n";
     std::cout << "GFLOPS: " << gflops << "\n";
     std::cout << "Checksum: " << sink << "\n";
+
+    std::free(a);
+    std::free(b);
     return 0;
 }
