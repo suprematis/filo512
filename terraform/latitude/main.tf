@@ -8,7 +8,9 @@ terraform {
   }
 }
 
-provider "latitudesh" {}
+provider "latitudesh" {
+  auth_token = var.latitude_api_key
+}
 
 variable "project_id" {
   description = "Latitude.sh Project ID"
@@ -102,6 +104,7 @@ resource "latitudesh_user_data" "filo512_autorun" {
 }
 
 resource "latitudesh_server" "filo512_node" {
+  allow_reinstall = true
   project          = var.project_id
   hostname         = "filo512-bench"
   plan             = var.plan
