@@ -12,3 +12,12 @@ workloads/microbench/simd_avx512
 workloads/clickhouse/clickhouse
 workloads/svt_av1/*.y4m
 workloads/svt_av1/*.ivf
+*.tfvars
+*.tfvars.json
+*.tfstate
+*.tfstate.*
+.terraform/
+.env
+/etc/filo512.env
+.pass1_complete
+.pass2_complete

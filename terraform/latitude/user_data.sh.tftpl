@@ -9,100 +9,17 @@ write_files:
   - path: /etc/filo512.env
     permissions: '0600'
     content: |
+      WORK_DIR="/opt/filo512"
+      PROVIDER="latitude"
+      DRY_RUN="${dry_run}"
+      PUSH_RESULTS="true"
+      AUTO_DESTROY="${auto_destroy}"
       GITHUB_USER="${github_user}"
       GITHUB_REPO="${github_repo}"
       GITHUB_TOKEN="${github_token}"
       LATITUDE_API_KEY="${latitude_api_key}"
       PROJECT_ID="${project_id}"
-      AUTO_DESTROY="${auto_destroy}"
-      DRY_RUN="${dry_run}"
-
-  - path: /etc/systemd/system/filo512-runner.service
-    permissions: '0644'
-    content: |
-      [Unit]
-      Description=Filo512 Automated Two-Pass AVX-512 Benchmark State Machine
-      After=network-online.target
-      Wants=network-online.target
-
-      [Service]
-      Type=oneshot
-      WorkingDirectory=/opt/filo512
-      ExecStart=/usr/local/bin/filo512-auto-pipeline.sh
-      StandardOutput=append:/var/log/filo512-autorun.log
-      StandardError=append:/var/log/filo512-autorun.log
-
-      [Install]
-      WantedBy=multi-user.target
-
-  - path: /usr/local/bin/filo512-auto-pipeline.sh
-    permissions: '0755'
-    content: |
-      #!/usr/bin/env bash
-      set -euxo pipefail
-      source /etc/filo512.env
-
-      AUTH_REPO_URL="https://$${GITHUB_USER}:$${GITHUB_TOKEN}@github.com/$${GITHUB_USER}/$${GITHUB_REPO}.git"
-      WORK_DIR="/opt/filo512"
-
-      if [ ! -d "$$WORK_DIR" ]; then
-          git clone "$$AUTH_REPO_URL" "$$WORK_DIR"
-          cd "$$WORK_DIR"
-          git config user.name "Filo512 Automated Runner"
-          git config user.email "bot@filo512.local"
-      fi
-
-      cd "$$WORK_DIR"
-
-      if [ ! -f /opt/filo512/.pass1_complete ]; then
-          echo ">>> [PASS 1] Running Native AVX-512 Suite (DRY_RUN=$${DRY_RUN})..."
-          DRY_RUN="$${DRY_RUN}" ./scripts/run_all.sh avx512_on
-          touch /opt/filo512/.pass1_complete
-
-          echo ">>> [PASS 1 COMPLETE] Masking AVX-512 in GRUB and rebooting..."
-          ./scripts/01_toggle_kernel_avx512.sh disable
-          systemctl reboot
-
-      elif [ ! -f /opt/filo512/.pass2_complete ]; then
-          echo ">>> [PASS 2] Running AVX-512 Masked Suite (DRY_RUN=$${DRY_RUN})..."
-          DRY_RUN="$${DRY_RUN}" ./scripts/run_all.sh avx512_off
-          touch /opt/filo512/.pass2_complete
-
-          ./scripts/01_toggle_kernel_avx512.sh enable
-          systemctl disable filo512-runner.service
-
-          CPU_SLUG=$$(grep -m1 'model name' /proc/cpuinfo | awk -F': ' '{print $$2}' | tr ' ' '_' | tr -cd '[:alnum:]_-')
-          RUN_BRANCH="results/$${CPU_SLUG}-$$(date -u +%Y%m%d-%H%M%S)"
-
-          git checkout -b "$$RUN_BRANCH"
-          cp /var/log/filo512-autorun.log ./results/autorun.log || true
-          git add results/
-          git commit -m "chore(results): automated AVX-512 vs AVX2 run on $${CPU_SLUG}"
-          git push -u origin "$$RUN_BRANCH"
-
-          echo ">>> [GIT PUSH COMPLETE] Pushed branch: $$RUN_BRANCH"
-
-          if [ "$$AUTO_DESTROY" = "true" ] && [ -n "$$LATITUDE_API_KEY" ]; then
-              echo ">>> [AUTO-DESTROY] Locating Server ID on Latitude.sh..."
-              PRIMARY_IP=$$(hostname -I | awk '{print $$1}')
-              SERVER_ID=$$(curl -s -g \
-                  -H "Authorization: Bearer $${LATITUDE_API_KEY}" \
-                  -H "Accept: application/vnd.api+json" \
-                  "https://api.latitude.sh/servers?filter[project]=$${PROJECT_ID}" | \
-                  jq -r ".data[] | select(.attributes.primary_ipv4 == \"$$PRIMARY_IP\") | .id")
-
-              if [ -n "$$SERVER_ID" ] && [ "$$SERVER_ID" != "null" ]; then
-                  echo ">>> [AUTO-DESTROY] Terminating Server ID: $$SERVER_ID"
-                  curl -s -X DELETE \
-                      -H "Authorization: Bearer $${LATITUDE_API_KEY}" \
-                      -H "Accept: application/vnd.api+json" \
-                      "https://api.latitude.sh/servers/$${SERVER_ID}"
-              else
-                  echo ">>> [WARN] Could not match Server ID for IP $$PRIMARY_IP. Destroy manually via Terraform!"
-              fi
-          fi
-      fi
 
 runcmd:
-  - systemctl daemon-reload
-  - systemctl enable --now filo512-runner.service
+  - git clone "https://github.com/${github_user}/${github_repo}.git" /opt/filo512
+  - /opt/filo512/scripts/install_standalone.sh
