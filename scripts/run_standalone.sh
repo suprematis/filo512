@@ -18,13 +18,15 @@ echo "=========================================================="
 install_prereqs() {
     echo ">>> [Setup] Checking Ubuntu packages & perf permissions..."
     export DEBIAN_FRONTEND=noninteractive
-    sudo apt-get update -qq
-    sudo apt-get install -y -qq \
-        build-essential g++ git curl wget jq bc awk \
+    APT_OPTS=(-y -qq -o DPkg::Lock::Timeout=120)
+
+    sudo apt-get "${APT_OPTS[@]}" update
+    sudo apt-get "${APT_OPTS[@]}" install \
+        build-essential g++ g++-14 git curl wget jq bc gawk \
         ffmpeg cmake ninja-build nasm yasm python3 \
         linux-tools-common "linux-tools-$(uname -r)" 2>/dev/null || \
-    sudo apt-get install -y -qq \
-        build-essential g++ git curl wget jq bc awk \
+    sudo apt-get "${APT_OPTS[@]}" install \
+        build-essential g++ g++-14 git curl wget jq bc gawk \
         ffmpeg cmake ninja-build nasm yasm python3 linux-tools-generic
 
     # Allow perf hardware counters
@@ -36,7 +38,7 @@ install_prereqs() {
         echo ">>> [Setup] Locking CPU scaling_governor to performance..."
         echo performance | sudo tee /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor >/dev/null || true
     else
-        echo ">>> [Setup] cpufreq scaling_governor not exposed (BIOS OS-control disabled or deterministic P-state active)."
+        echo ">>> [Setup] cpufreq scaling_governor not exposed (BIOS deterministic P-state active)."
     fi
 }
 
@@ -70,7 +72,7 @@ if [ ! -f "$STATE_DIR/pass1.done" ]; then
     echo " PASS 1 FINISHED SUCCESSFULLY!"
     echo " Next step: Reboot the server so clearcpuid takes effect,"
     echo " then SSH back in and run the EXACT SAME COMMAND:"
-    echo "   cd $REPO_ROOT && ./scripts/run_standalone.sh"
+    echo "   cd $REPO_ROOT && DRY_RUN=$DRY_RUN ./scripts/run_standalone.sh"
     echo "=========================================================="
 
     if [ "${AUTO_REBOOT:-false}" = "true" ]; then
