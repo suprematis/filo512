@@ -21,3 +21,8 @@ workloads/svt_av1/*.ivf
 /etc/filo512.env
 .pass1_complete
 .pass2_complete
+
+**/.terraform/*
+*.tfstate
+*.tfstate.*
+terraform/latitude_vanilla/terraform.tfvars
